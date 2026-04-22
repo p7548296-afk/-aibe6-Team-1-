@@ -20,6 +20,10 @@ public class ApplicationContext {
             return (T) testPostService;
         }
 
+        if ("testPostRepository".equals(beanName)) {
+            return (T) new TestPostRepository();
+        }
+
         return null;
     }
 }
