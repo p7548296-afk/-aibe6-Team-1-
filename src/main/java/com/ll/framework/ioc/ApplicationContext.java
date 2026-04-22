@@ -1,6 +1,7 @@
 package com.ll.framework.ioc;
 
 import com.ll.domain.testPost.testPost.repository.TestPostRepository;
+import com.ll.domain.testPost.testPost.service.TestFacadePostService;
 import com.ll.domain.testPost.testPost.service.TestPostService;
 
 public class ApplicationContext {
@@ -27,6 +28,13 @@ public class ApplicationContext {
             }
 
             return (T) testPostService;
+        }
+
+        if ("testFacadePostService".equals(beanName)) {
+            return (T) new TestFacadePostService(
+                    genBean("testPostService"),
+                    genBean("testPostRepository")
+            );
         }
 
 
