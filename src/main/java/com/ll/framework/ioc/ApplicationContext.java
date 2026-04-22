@@ -4,6 +4,8 @@ import com.ll.domain.testPost.testPost.repository.TestPostRepository;
 import com.ll.domain.testPost.testPost.service.TestPostService;
 
 public class ApplicationContext {
+    private TestPostService testPostService;
+
     public ApplicationContext() {
 
     }
@@ -11,7 +13,11 @@ public class ApplicationContext {
     @SuppressWarnings("unchecked")
     public <T> T genBean(String beanName) {
         if ("testPostService".equals(beanName)) {
-            return (T) new TestPostService(new TestPostRepository());
+            if (testPostService == null) {
+                testPostService = new TestPostService(new TestPostRepository());
+            }
+
+            return (T) testPostService;
         }
 
         return null;
