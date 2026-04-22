@@ -5,6 +5,7 @@ import com.ll.domain.testPost.testPost.service.TestPostService;
 
 public class ApplicationContext {
     private TestPostService testPostService;
+    private TestPostRepository testPostRepository;
 
     public ApplicationContext() {
 
@@ -12,17 +13,22 @@ public class ApplicationContext {
 
     @SuppressWarnings("unchecked")
     public <T> T genBean(String beanName) {
+        if ("testPostRepository".equals(beanName)) {
+            if (testPostRepository == null) {
+                testPostRepository = new TestPostRepository();
+            }
+
+            return (T) testPostRepository;
+        }
+
         if ("testPostService".equals(beanName)) {
             if (testPostService == null) {
-                testPostService = new TestPostService(new TestPostRepository());
+                testPostService = new TestPostService(genBean("testPostRepository"));
             }
 
             return (T) testPostService;
         }
 
-        if ("testPostRepository".equals(beanName)) {
-            return (T) new TestPostRepository();
-        }
 
         return null;
     }
